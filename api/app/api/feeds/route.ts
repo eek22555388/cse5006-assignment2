@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { json, error, corsHeaders, logRequest } from '@/lib/api-helpers';
+import { json, error, corsHeaders, logRequest, slugify } from '@/lib/api-helpers';
 
 export async function OPTIONS() {
   return new Response(null, { status: 204, headers: corsHeaders });
@@ -50,11 +50,18 @@ export async function GET(req: NextRequest) {
 // POST /api/feeds
 export async function POST(req: NextRequest) {
   try {
-    const { title, slug, description, siteUrl } = await req.json();
+    const { title, description, siteUrl } = await req.json();
 
-    if (!title || !slug) {
+    if (!title) {
       await logRequest(req, 400);
-      return error('title and slug are required', 400);
+      return error('title is required', 400);
+    }
+
+    const slug = slugify(title);
+
+    if (!slug) {
+      await logRequest(req, 400);
+      return error('title must contain at least one letter or number', 400);
     }
 
     const feed = await prisma.feed.create({
@@ -66,7 +73,7 @@ export async function POST(req: NextRequest) {
   } catch (e: any) {
     if (e?.code === 'P2002') {
       await logRequest(req, 409);
-      return error('A feed with that slug already exists', 409);
+      return error('A feed with that title already exists', 409);
     }
     console.error('POST /api/feeds failed:', e);
     await logRequest(req, 500);
