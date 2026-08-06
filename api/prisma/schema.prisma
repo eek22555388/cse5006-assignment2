@@ -51,10 +51,16 @@ model FeedItem {
 }
 
 model RequestLog {
-  id        Int      @id @default(autoincrement())
-  path      String
-  method    String
-  createdAt DateTime @default(now())
+  id         Int      @id @default(autoincrement())
+  path       String
+  method     String
+  clientIp   String?
+  userAgent  String?
+  feedId     String?
+  statusCode Int?
+  createdAt  DateTime @default(now())
 
   @@index([createdAt])
+  @@index([clientIp])
+  @@index([feedId])
 }
