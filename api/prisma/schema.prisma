@@ -11,6 +11,7 @@ model Author {
   id        String     @id @default(uuid())
   name      String
   email     String?    @unique
+  isActive  Boolean    @default(true)
   createdAt DateTime   @default(now())
   items     FeedItem[]
 }
@@ -38,14 +39,15 @@ model FeedItem {
   publishedAt DateTime @default(now())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  isActive    Boolean   @default(true)
 
   feedId String
   feed   Feed   @relation(fields: [feedId], references: [id], onDelete: Cascade)
 
   authorId String?
-  author   Author? @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  author   Author? @relation(fields: [authorId], references: [id], onDelete: Restrict)
 
-  @@index([feedId, publishedAt])
+  @@index([feedId, isActive, publishedAt])
 }
 
 model RequestLog {
