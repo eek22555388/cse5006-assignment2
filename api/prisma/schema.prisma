@@ -1,13 +1,58 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client"
-  output   = "../app/generated/prisma"
+  output   = "app/generated/prisma/client"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+model Author {
+  id        String     @id @default(uuid())
+  name      String
+  email     String?    @unique
+  createdAt DateTime   @default(now())
+  items     FeedItem[]
+}
+
+model Feed {
+  id          String     @id @default(uuid())
+  title       String
+  slug        String     @unique
+  description String?
+  siteUrl     String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  items       FeedItem[]
+}
+
+model FeedItem {
+  id          String   @id @default(uuid())
+  guid        String   @unique
+  title       String
+  summary     String?
+  content     String?
+  link        String?
+  imageUrl    String?
+  category    String?
+  publishedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  feedId String
+  feed   Feed   @relation(fields: [feedId], references: [id], onDelete: Cascade)
+
+  authorId String?
+  author   Author? @relation(fields: [authorId], references: [id], onDelete: SetNull)
+
+  @@index([feedId, publishedAt])
+}
+
+model RequestLog {
+  id        Int      @id @default(autoincrement())
+  path      String
+  method    String
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
 }
