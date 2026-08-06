@@ -13,11 +13,17 @@ export async function GET(req: NextRequest) {
     const id = req.nextUrl.searchParams.get('id');
 
     if (id) {
-      const feed = await prisma.feed.findUnique({
+        const feed = await prisma.feed.findUnique({
         where: { id },
         include: {
           items: {
-            where: { isActive: true },
+            where: {
+              isActive: true,
+              OR: [
+                { authorId: null },
+                { author: { isActive: true } },
+              ],
+            },
             orderBy: { publishedAt: 'desc' },
             include: { author: true },
           },
@@ -34,6 +40,7 @@ export async function GET(req: NextRequest) {
     }
 
     const feeds = await prisma.feed.findMany({
+        
       orderBy: { createdAt: 'desc' },
       include: { _count: { select: { items: true } } },
     });

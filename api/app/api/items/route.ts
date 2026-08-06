@@ -30,15 +30,18 @@ export async function GET(req: NextRequest) {
       return json(item);
     }
 
-    const items = await prisma.feedItem.findMany({
+const items = await prisma.feedItem.findMany({
       where: {
         isActive: true,
         ...(feedId && { feedId }),
+        OR: [
+          { authorId: null },
+          { author: { isActive: true } },
+        ],
       },
       orderBy: { publishedAt: 'desc' },
       include: { author: true, feed: { select: { title: true, slug: true } } },
     });
-
     await logRequest(req, 200, feedId);
     return json(items);
   } catch (e) {
