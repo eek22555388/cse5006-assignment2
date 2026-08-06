@@ -101,3 +101,69 @@ export async function POST(req: NextRequest) {
     return error('Server error', 500);
   }
 }
+// PATCH /api/items?id=...
+export async function PATCH(req: NextRequest) {
+  try {
+    const id = req.nextUrl.searchParams.get('id');
+    if (!id) {
+      await logRequest(req, 400);
+      return error('id query parameter is required', 400);
+    }
+
+    const { title, summary, content, link, imageUrl, category, isActive, publishedAt } =
+      await req.json();
+
+    const item = await prisma.feedItem.update({
+      where: { id },
+      data: {
+        ...(title !== undefined && { title }),
+        ...(summary !== undefined && { summary }),
+        ...(content !== undefined && { content }),
+        ...(link !== undefined && { link }),
+        ...(imageUrl !== undefined && { imageUrl }),
+        ...(category !== undefined && { category }),
+        ...(isActive !== undefined && { isActive }),
+        ...(publishedAt !== undefined && { publishedAt: new Date(publishedAt) }),
+      },
+      include: { author: true },
+    });
+
+    await logRequest(req, 200, item.feedId);
+    return json(item);
+  } catch (e: any) {
+    if (e?.code === 'P2025') {
+      await logRequest(req, 404);
+      return error('Item not found', 404);
+    }
+    console.error('PATCH /api/items failed:', e);
+    await logRequest(req, 500);
+    return error('Server error', 500);
+  }
+}
+
+// DELETE /api/items?id=...  → soft delete
+export async function DELETE(req: NextRequest) {
+  try {
+    const id = req.nextUrl.searchParams.get('id');
+    if (!id) {
+      await logRequest(req, 400);
+      return error('id query parameter is required', 400);
+    }
+
+    const item = await prisma.feedItem.update({
+      where: { id },
+      data: { isActive: false },
+    });
+
+    await logRequest(req, 200, item.feedId);
+    return json({ message: 'Item deactivated', item });
+  } catch (e: any) {
+    if (e?.code === 'P2025') {
+      await logRequest(req, 404);
+      return error('Item not found', 404);
+    }
+    console.error('DELETE /api/items failed:', e);
+    await logRequest(req, 500);
+    return error('Server error', 500);
+  }
+}
