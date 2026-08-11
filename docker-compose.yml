@@ -1,4 +1,33 @@
 services:
+  frontend:
+    build: ./frontend
+    container_name: rss-frontend
+    ports:
+      - "80:3000"
+    depends_on:
+      - api
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_API_URL=http://ec2-18-234-143-10.compute-1.amazonaws.com:4080
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: npm run dev
+
+  api:
+    build: ./api
+    container_name: rss-api
+    ports:
+      - "4080:3000"
+    depends_on:
+      - postgres
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://user:password@postgres:5432/mydb
+    volumes:
+      - ./api:/app
+      - /app/node_modules
+
   postgres:
     image: postgres:15
     container_name: rss-postgres
