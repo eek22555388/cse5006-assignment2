@@ -6,55 +6,57 @@ export default function About() {
       <section className="mb-8">
         <h3 className="text-xl font-semibold mb-2">Who made this</h3>
         <p className="text-slate-700 dark:text-slate-300">
-          Created by Erdi Erden Kekec — Student Number 22555388, for CSE5006
-          Assessment 1.
+          Created by Erdi Erden Kekec — Student Number 22555388, for CSE5006.
         </p>
       </section>
 
       <section className="mb-8">
         <h3 className="text-xl font-semibold mb-2">What this is</h3>
         <p className="mb-3 text-slate-700 dark:text-slate-300">
-          This is the frontend for an RSS Server that will feed content into a
-          Learning Management System (LMS). The goal of the wider project is to
-          gather content from external sources and present it to learners in one
-          clear, easy-to-scan place.
+          This is an RSS Server and RSS Client built to feed content into a
+          Learning Management System (LMS). Feed items are created, stored and
+          published from one place, then presented to learners in a clear,
+          easy-to-scan interface.
         </p>
         <p className="text-slate-700 dark:text-slate-300">
-          <strong>Assessment 1 is frontend only.</strong> There is no backend or
-          live RSS processing at this stage. The sample blog posts you see act as
-          a temporary stand-in for real RSS feed items, so the focus can stay on
-          layout, navigation, usability, and responsive design.
+          Assessment 1 built the frontend. <strong>Assessment 2 adds the backend:</strong>{' '}
+          a PostgreSQL database, a REST API, an RSS 2.0 feed endpoint, and Docker
+          deployment. The sample posts have been replaced by real records served
+          from the database.
+        </p>
+      </section>
+
+      <section className="mb-8">
+        <h3 className="text-xl font-semibold mb-2">How it works</h3>
+        <p className="mb-3 text-slate-700 dark:text-slate-300">
+          The system runs as three containers. The RSS Client is this interface.
+          The RSS Server exposes the API and generates RSS XML. PostgreSQL stores
+          feeds, items, authors and request metrics.
+        </p>
+        <p className="text-slate-700 dark:text-slate-300">
+          Content is organised as feeds and items: a feed is a channel, and an
+          item is a single post within it — the same structure an RSS document
+          uses. Items can carry their content directly, or link out to an
+          original source.
         </p>
       </section>
 
       <section className="mb-8">
         <h3 className="text-xl font-semibold mb-2">Where it&apos;s heading</h3>
         <p className="text-slate-700 dark:text-slate-300">
-          In later stages, a backend and database will be added so that live RSS
-          feed items can be stored and displayed. Those items will flow into this
-          same interface, which has been built so that adding the backend
-          requires minimal rework to the frontend.
+          Assessment 3 will add dashboard views and reporting on top of the
+          metrics the server already collects, along with end-to-end and load
+          testing.
         </p>
       </section>
 
-      <section className="mb-8">
-        <h3 className="text-xl font-semibold mb-2">How to use this website</h3>
-        <p className="mb-4 text-slate-700 dark:text-slate-300">
-          The short video below walks through the main features: navigation,
-          switching themes, browsing and searching the feed, and creating a post.
+    <section className="mb-8">
+        <h3 className="text-xl font-semibold mb-2">Walkthrough</h3>
+        <p className="text-slate-700 dark:text-slate-300">
+          A recorded walkthrough of the system — the RSS Server, the client
+          interface, the API endpoints and the Docker deployment — is submitted
+          with this assessment.
         </p>
-
-        {/* VIDEO PLACEHOLDER — we'll replace this once you've recorded */}
-        <div className="aspect-video w-full rounded-lg bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-400">
-          <video
-          controls
-          preload="metadata"
-          className="w-full rounded-lg"
-        >
-          <source src="/22555388_Assignment1_Recording.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        </div>
       </section>
     </div>
   );
