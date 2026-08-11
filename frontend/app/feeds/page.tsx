@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4080';
 
@@ -124,16 +125,12 @@ export default function FeedsPage() {
             {item.summary && (
               <p className="text-slate-700 dark:text-slate-300">{item.summary}</p>
             )}
-            {item.link && (
-              <a
-                href={item.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block mt-3 text-blue-600 dark:text-blue-400 underline"
-              >
-                Read more
-              </a>
-            )}
+           <Link
+              href={`/feeds/${item.id}`}
+              className="inline-block mt-3 text-blue-600 dark:text-blue-400 underline"
+            >
+              Read more
+            </Link>
           </article>
         ))}
       </div>
