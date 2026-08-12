@@ -50,13 +50,18 @@ export default function About() {
         </p>
       </section>
 
-    <section className="mb-8">
+      <section className="mb-8">
         <h3 className="text-xl font-semibold mb-2">Walkthrough</h3>
-        <p className="text-slate-700 dark:text-slate-300">
-          A recorded walkthrough of the system — the RSS Server, the client
-          interface, the API endpoints and the Docker deployment — is submitted
-          with this assessment.
+        <p className="mb-4 text-slate-700 dark:text-slate-300">
+          The video below walks through the system: the database schema, the API
+          endpoints, the RSS Server sending feeds to the RSS Client, and the
+          application running in Docker.
         </p>
+
+        <video controls preload="metadata" className="w-full rounded-lg">
+          <source src="/22555388_Assignment2_Walkthrough.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
       </section>
     </div>
   );
