@@ -51,7 +51,8 @@ export async function GET(req: NextRequest) {
       });
     }
 
-    const baseUrl = req.nextUrl.origin;
+    const host = req.headers.get('host') ?? req.nextUrl.host;
+    const baseUrl = `http://${host}`;
 
     const itemsXml = feed.items
       .map((item) => {
