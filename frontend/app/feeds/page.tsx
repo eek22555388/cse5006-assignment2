@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useTheme } from '../context/ThemeContext';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4080';
 
@@ -25,6 +26,7 @@ export default function FeedsPage() {
   const [selectedFeed, setSelectedFeed] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState<string | null>(null);
+  const { layout } = useTheme();
 
   const loadFeeds = async () => {
     try {
@@ -103,7 +105,7 @@ export default function FeedsPage() {
         <p className="text-slate-500">No items published yet.</p>
       )}
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className={layout === 'list' ? 'flex flex-col gap-4' : 'grid gap-4 md:grid-cols-2'}>
         {items.map((item) => (
           <article
             key={item.id}

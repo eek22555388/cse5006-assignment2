@@ -36,7 +36,7 @@ export default function Settings() {
             onClick={() => setLayout("grid")}
             className={`px-4 py-2 rounded border ${
               layout === "grid"
-                ? "bg-blue-600 text-white border-blue-600"
+                ? "bg-blue-600 dark:bg-blue-500 text-white dark:text-slate-900 border-blue-600 dark:border-blue-500"
                 : "border-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700"
             }`}
           >
@@ -46,7 +46,7 @@ export default function Settings() {
             onClick={() => setLayout("list")}
             className={`px-4 py-2 rounded border ${
               layout === "list"
-                ? "bg-blue-600 text-white border-blue-600"
+                ? "bg-blue-600 dark:bg-blue-500 text-white dark:text-slate-900 border-blue-600 dark:border-blue-500"
                 : "border-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700"
             }`}
           >

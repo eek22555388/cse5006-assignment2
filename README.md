@@ -112,6 +112,7 @@ Set the public API URL in `docker-compose.yml` under the `frontend` service:
 ```yaml
 - NEXT_PUBLIC_API_URL=http://<your-host>:4080
 ```
+In development, add the host to `allowedDevOrigins` in both `frontend/next.config.ts` and `api/next.config.ts`. Next.js blocks dev assets from unrecognised origins; production builds do not require this.
 
 Then:
 
@@ -142,6 +143,6 @@ Migrations are applied automatically on API container startup via
   restricted to the frontend origin in production.
 - Client identification uses IP address, which cannot distinguish users behind
   shared NAT.
-- Theme preferences are stored in `localStorage` rather than cookies, so the
-  server cannot render the correct theme on first paint.
+- Theme and layout preferences are stored in localStorage rather than cookies, so the server
+  cannot render the correct theme on first paint. Button and status-text contrast in dark mode was corrected following Assessment 1 feedback.
 - There is no authentication; the management interface is open.

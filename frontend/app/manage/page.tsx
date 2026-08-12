@@ -140,7 +140,7 @@ export default function ManagePage() {
   };
 
   const box = 'w-full border rounded px-3 py-2 mb-2 bg-white dark:bg-slate-700 dark:border-slate-600';
-  const btn = 'px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700';
+  const btn = 'px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-400 text-white dark:text-slate-900 font-medium';
   const card = 'rounded-lg border border-slate-200 dark:border-slate-600 p-5 mb-8';
 
   return (
@@ -174,7 +174,7 @@ export default function ManagePage() {
             <li key={f.id} className="flex justify-between items-center text-sm border-t pt-2 dark:border-slate-600">
               <span>{f.title} <span className="text-slate-500">({f._count?.items ?? 0} items)</span></span>
               <button
-                className="text-red-600 hover:underline"
+                className="text-red-600 dark:text-red-400 hover:underline"
                 onClick={() =>
                   send(`${API_URL}/api/feeds?id=${f.id}`, { method: 'DELETE' }, `Feed "${f.title}" deleted`)
                 }
@@ -197,11 +197,11 @@ export default function ManagePage() {
             <li key={a.id} className="flex justify-between items-center text-sm border-t pt-2 dark:border-slate-600">
               <span>
                 {a.name} <span className="text-slate-500">({a._count?.items ?? 0} items)</span>
-                {!a.isActive && <span className="ml-2 text-amber-600">inactive</span>}
+                {!a.isActive && <span className="ml-2 text-amber-600 dark:text-amber-400 dark:text-amber-400">inactive</span>}
               </span>
               <span className="space-x-3">
                 <button
-                  className="text-amber-600 hover:underline"
+                  className="text-amber-600 dark:text-amber-400 hover:underline"
                   onClick={() =>
                     send(
                       `${API_URL}/api/authors?id=${a.id}`,
@@ -217,8 +217,7 @@ export default function ManagePage() {
                   {a.isActive ? 'Deactivate' : 'Reactivate'}
                 </button>
                 <button
-                  className="text-red-600 hover:underline"
-                  onClick={() =>
+                    className="text-red-600 dark:text-red-400 hover:underline"                  onClick={() =>
                     send(`${API_URL}/api/authors?id=${a.id}`, { method: 'DELETE' }, `Author "${a.name}" deleted`)
                   }
                 >
@@ -268,7 +267,7 @@ export default function ManagePage() {
             <li key={i.id} className="flex justify-between items-center text-sm border-t pt-2 dark:border-slate-600">
               <span>{i.title} <span className="text-slate-500">— {i.author?.name ?? 'no author'}</span></span>
               <button
-                className="text-red-600 hover:underline"
+                className="text-red-600 dark:text-red-400 hover:underline"
                 onClick={() =>
                   send(`${API_URL}/api/items?id=${i.id}`, { method: 'DELETE' }, `Item "${i.title}" withdrawn`)
                 }
